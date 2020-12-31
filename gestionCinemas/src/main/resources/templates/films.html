@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="template.html"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" >
+<head>
+<meta charset="ISO-8859-1">
+<title>Gestion</title>
+</head>
+<body>
+	<div layout:fragment="pageContent">
+		<br>
+		<br>
+		
+		<div class="container">
+		<div class="card">
+			<div class="card-header">Liste des Films</div>
+			<div class="card-body">
+				<table class="table">
+					<tr>
+						<th>ID</th><th>Titre</th><th>Date Sortie</th><th>Duree</th><th>Description</th><th sec:authorize="hasRole('ROLE_ADMIN')">Supprimer</th>
+					</tr>
+					<tr th:each="f:${films}">
+						<td th:text="${f.id}"></td>
+						<td th:text="${f.titre}"></td>
+						<td th:text="${f.dateSortie}"></td>
+						<td th:text="${f.duree}"></td>
+						<td th:text="${f.decription}"></td>
+						<td sec:authorize="hasRole('ROLE_ADMIN')"><a onclick="return confirm('Etes vous sure de vouloir supprimer le film ?')" class="btn" 
+						th:href="@{deleteFilm(id=${f.id},page=${currentPage},size=${size})}" style="color:red">Delete</a></td>
+					</tr>
+				</table>
+				<ul class="nav nav-pills">
+					<li th:class="${status.index==currentPage}?'btn btn-primary':'btn'" th:each="page,status:${pages}">
+						<!-- J'ai utilisé count à la place de index dans th:text pour afficher les numéros à partir de 1 -->
+						<a th:href="@{films(page=${status.index}, size=${size} )}" th:text="${status.count}" style="color:black"></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		</div>
+	</div>
+</body>
+</html>

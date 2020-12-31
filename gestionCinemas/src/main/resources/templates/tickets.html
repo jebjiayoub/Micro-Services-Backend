@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="template.html"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" >
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<div layout:fragment="pageContent">
+		<div class="container mt-5">
+			<div class="col-md-10">
+				<div class="card">
+					<form th:action="@{saveTicket}" action="post">
+					<!-- <div  th:if="${not #lists.isEmpty(tickets)}" >  -->
+					
+					<input type="hidden" name="idp" class="form-control" th:value="${idprojection}" /> 
+					<input type="hidden" name="page" class="form-control" th:value="${currentPage}" /> 
+					<input type="hidden" name="size" class="form-control" th:value="${size}" /> 
+					
+								<input type="hidden" name="id" class="form-control" th:value="${ticket.id}" /> 
+								<input type="hidden" name="projection" class="form-control" th:value="${idprojection}" /> 
+								  <input type="hidden" name="place" class="form-control" th:value="${ticket.place.numero}" /> 
+								
+							<table class="table">
+								<tr>
+									<th>Place</th><th>Reserver</th><th>Nom de Client</th><th>Code de payement</th><th>Prix</th><th sec:authorize="hasRole('ROLE_ADMIN')">Modifier</th>
+								</tr>
+								<tr th:each="t:${tickets}">
+									<!-- <td th:text="${t.id}"></td>  -->
+									<td th:text="${t.place.numero}"></td>
+									<td th:if="${t.id!=idtick}" th:text="${t.reserve}"></td>
+									<td  th:if="${t.id==idtick}" >
+										<select class="form-control" name="reserve">
+											<option th:value="true" th:text="true"></option>
+											<option th:value="false" th:text="false"></option>
+										</select>
+									</td>
+									<td th:if="${t.id!=idtick}" th:text="${t.nomClient}"></td>
+									<td th:if="${t.id==idtick}" ><input type="text" class="form-control" name="nomClient" th:value="${ticket.nomClient}"></td>
+									<td th:if="${t.id!=idtick}" th:text="${t.codePayement}"></td>
+									<td th:if="${t.id==idtick}" ><input type="text" class="form-control" name="codePayement" th:value="${ticket.codePayement}"></td>
+									<td th:if="${t.id!=idtick}" th:text="${t.prix} + ' ' + DH"></td>
+									<td th:if="${t.id==idtick}" ><input type="number" class="form-control col-sm-6" name="prix" th:value="${ticket.prix}" ></td>
+									
+									<!-- 
+									<td sec:authorize="hasRole('ROLE_ADMIN')"><a onclick="return confirm('Etes vous sure de vouloir supprimer la projection ?')" class="btn" 
+									th:href="@{deleteFilm(id=${p.id},page=${currentPage},size=${size})}" style="color:red">Delete</a></td>
+									 -->
+									<td><a class="btn btn-success" th:href="@{tickets(idp=${idprojection}, page=${page}, size=${size}, idtick=${t.id} )}">Edit</a></td> 
+									<td th:if="${t.id==idtick}"><button class="btn btn-success" type="submit">Save</button></td> 
+									<!--  <a class="btn btn-primary" th:href="@{saveTicket(idp=${idprojection}, page=${page}, size=${size}, ticket=${ticket}  )}" type="submit">Save</a> -->
+								</tr>
+							</table>
+						<!-- </div>  -->
+					<ul class="nav nav-pills">
+						<li th:class="${status.index==currentPage}?'btn btn-primary':'btn'" th:each="page,status:${pages}">
+							<!-- J'ai utilisé count à la place de index dans th:text pour afficher les numéros à partir de 1 -->
+							<a th:href="@{tickets(idp=${idprojection}, page=${status.index}, size=${size} )}" th:text="${status.count}" style="color:black"></a>
+						</li>
+					</ul>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</body>
+</html>

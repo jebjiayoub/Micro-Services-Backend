@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" >
+<head>
+<meta charset="utf-8">
+<title>Patients</title>
+<link rel="stylesheet"  type="text/css" href="/webjars/bootstrap/4.1.3/css/bootstrap.min.css">
+<script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+<script src="/webjars/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<header>
+		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+		
+		  <!-- Brand -->
+		  <a class="navbar-brand" th:href="@{index}">Home</a>
+		
+		  <!-- Links -->
+		  <ul class="navbar-nav">
+		  
+
+		    <!-- Dropdown -->
+		    <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item dropdown">
+		      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+		        Films
+		      </a>
+		      <div class="dropdown-menu">
+		        <a class="dropdown-item" th:href="@{films}">Afficher</a>
+		        <a class="dropdown-item" th:href="@{formfilms}">Ajouter</a>
+		      </div>
+		    </li>
+		    
+		 	<li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item" ><a class="nav-link" th:href="@{projections}" >Projections</a></li>
+		    <!-- <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item" ><a class="nav-link" th:href="@{tickets}" >Tickets</a></li> -->
+		    
+		  </ul>
+		    
+		    
+		    <ul class="navbar-nav ml-auto">
+		    
+		    <!-- Dropdown -->
+		    <li class="nav-item dropdown">
+		      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+		      <span sec:authorize="isAuthenticated()">
+		        <span sec:authentication="name"></span>
+		        </span>
+		        <span sec:authorize="!isAuthenticated()">
+		        <span>Connect</span>
+		        </span>
+		      </a>
+		      
+		      
+		      <div class="dropdown-menu">
+		        <a sec:authorize="isAnonymous()" class="dropdown-item" th:href="@{login}">Login</a>
+		        <a sec:authorize="isAuthenticated()" class="dropdown-item" th:href="@{logout}">Logout</a>
+		      </div>
+		      
+		    </li>
+		  </ul>
+		  
+		  
+		</nav>
+	</header>
+	<section layout:fragment="pageContent">
+	
+	</section>
+	<footer>
+	
+	</footer>
+</body>
+</html>

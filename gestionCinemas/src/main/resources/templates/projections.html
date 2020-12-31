@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="template.html"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" >
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<div layout:fragment="pageContent">
+		
+		<!-- 
+		<form th:action="@{projections}" action="get">
+			<div>
+				 <div class="form-group blu-margin">
+				    <select th:field="*{idville}" class="form-control" id="idville" name="idville" >
+				    	<option value="0" disabled selected>Select Ville : </option>
+				    	<option th:each="v : ${villes}" th:value="${v.id}" th:text="${v.name}"></option>
+				    </select>
+				</div>  
+			</div>
+			<a th:href="@{projections(idville=${idville} )}" th:text="Chercher" style="color:black"></a>
+		</form>
+		
+		 -->
+		 <div class="container mt-5">
+			<div class="col-md-10">
+				<div class="card">
+		 			
+					<form th:action="@{projections}" action="get">
+						<div class="mt-3" style="display:inline-block">
+							<div class="form-group blu-margin mr-5 ml-5" style="display:inline-block">
+							    <select class="form-control" id="idville" name="idville" >
+							    	<option value="0" disabled selected>Select Ville : </option>
+							    	<option th:if="${v.id==idville}" th:each="v : ${villes}" th:value="${v.id}" th:text="${v.name}" selected></option>
+							    	<option th:if="${v.id!=idville}" th:each="v : ${villes}" th:value="${v.id}" th:text="${v.name}"></option>
+							    </select>
+							</div> 
+							<div th:if="${not #lists.isEmpty(cinemas)}" class="form-group blu-margin mr-5" style="display:inline-block">
+							    <select class="form-control" name="idcinema">
+							    	<option value="0" disabled selected>Select Cinema : </option>
+							    	<option  th:if="${c.id==idcinema}" th:each="c : ${cinemas}" th:value="${c.id}" th:text="${c.name}" selected></option>
+							    	<option  th:if="${c.id!=idcinema}" th:each="c : ${cinemas}" th:value="${c.id}" th:text="${c.name}"></option>
+							    </select>
+							</div> 
+							<div th:if="${not #lists.isEmpty(salles)}" class="form-group blu-margin mr-5" style="display:inline-block">
+							    <select class="form-control" name="idsalle">
+							    	<option value="0" disabled selected>Select Salle : </option>
+							    	<option  th:if="${s.id==idsalle}" th:each="s : ${salles}" th:value="${s.id}" th:text="${s.name}" selected></option>
+							    	<option  th:if="${s.id!=idsalle}" th:each="s : ${salles}" th:value="${s.id}" th:text="${s.name}"></option>
+							    </select>
+							</div> 
+						</div>
+							<button class="btn btn-primary" style="display:inline-block">Chercher</button>
+							<a th:if="${idsalle!=null}" class="btn btn-primary" style="display:inline-block" th:href="@{addProjection(ids=${idsalle},idf=${projections[1].film.id})}">Ajouter</a>
+						<div  th:if="${not #lists.isEmpty(projections)}" >
+							<table class="table">
+								<tr>
+									<th>ID</th><th>Titre de Film</th><th>Date de Projection</th><th>Prix</th><th sec:authorize="hasRole('ROLE_ADMIN')">Supprimer</th>
+								</tr>
+								<tr th:each="p:${projections}">
+									<td th:text="${p.id}"></td>
+									<td th:text="${p.film.titre}"></td>
+									<td th:text="${p.dateProjection}"></td>
+									<td th:text="${p.prix} + ' ' + DH"></td>
+									<td sec:authorize="hasRole('ROLE_ADMIN')"><a onclick="return confirm('Etes vous sure de vouloir supprimer la projection ?')" class="btn" 
+									th:href="@{deleteProjection(id=${p.id},idv=${idville},idc=${idcinema},ids=${idsalle})}" style="color:red">Delete</a></td>
+									<!-- 
+									<td sec:authorize="hasRole('ROLE_ADMIN')"><a onclick="return confirm('Etes vous sure de vouloir supprimer la projection ?')" class="btn" 
+									th:href="@{deleteFilm(id=${p.id},page=${currentPage},size=${size})}" style="color:red">Delete</a></td>
+									 -->
+									<td><a class="btn btn-success" th:href="@{editProjection(id=${p.id},ids=${idsalle},idf=${p.film.id})}">Edit</a></td>
+									<td><a class="btn btn-secondary" th:href="@{tickets(idp=${p.id})}">Tickets</a></td>
+								</tr>
+							</table>
+						</div>
+						
+						<!-- 
+						<div class="mb-3">
+							<label>Select Ville : </label>
+							<input type="text" name="idville" th:value="${idville}" />
+							<button class="btn btn-primary">Chercher</button>
+						</div>
+						-->
+					</form>
+			
+			</div></div></div>
+			
+		
+		
+	</div>
+</body>
+</html>

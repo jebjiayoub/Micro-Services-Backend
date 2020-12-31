@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="template.html">
+<head>
+<meta charset="utf-8">
+<title>Form Films</title>
+</head>
+<body>
+	<div layout:fragment="pageContent">
+		<div class="container mt-5">
+			<div class="col-md-10">
+				<div class="card">
+					<div class="card-header" th:if="${film.id==null}">Mercie de remplire le formulaire</div>
+					<div class="card-header" th:if="${film.id!=null}">Mercie de modifier le formulaire</div>
+					<div class="card-body">
+
+						<form th:action="@{saveFilm}" method="post">
+
+							<div classe="form-group">
+							
+								<!-- <label class="control-label">ID : </label>  -->
+								<input type="hidden" name="id" class="form-control" th:value="${film.id}" /> 
+								
+								<div style="display:inline-block; width:70%" >
+									<label class="control-label">Titre : </label> 
+									<input type="text" name="titre" class="form-control" th:value="${film.titre}" />
+									<span th:errors=${film.titre} class="text-danger"></span> 
+								</div>
+								<div style="display:inline-block; width:25%">
+									<label class="control-label">Date de Sortie : </label> 
+									<input type="date" name="dateSortie" class="form-control" th:value="${film.dateSortie}" /> 
+									<span th:errors=${film.dateSortie} class="text-danger"></span>
+								</div>
+								<br> 
+								<br>
+								<label  class="control-label">Description : </label> 
+								<input style="display:inline-block; width:95%" type="text" name="decription" class="form-control" th:value="${film.decription}" />
+								<span th:errors=${film.decription} class="text-danger"></span> 
+								<br>
+								<div style="display:inline-block; width:70%" >
+									<label class="control-label">Réalisateur : </label> 
+									<input type="text" name="realisateur" class="form-control" th:value="${film.realisateur}" />
+									<span th:errors=${film.realisateur} class="text-danger"></span> 
+								</div>
+								<div style="display:inline-block; width:25%" >
+									<label class="control-label">Durée : </label> 
+									<input type="text" name="realisateur" class="form-control" th:value="${film.duree}" />
+									<span th:errors=${film.duree} class="text-danger"></span> 
+								</div>
+								<br>
+								<br>
+								<div style="display:inline-block; width:70%" >
+									<label class="control-label">Photo : </label> 
+									<input type="file" name="photo" class="form-control" th:value="${film.photo}" />
+									<span th:errors=${film.photo} class="text-danger"></span> 
+								</div>
+								<div style="display:inline-block; width:25%" >
+									<label class="control-label">Catégorie : </label> 
+									<input type="text" name="categorie" class="form-control" th:value="${film.categorie}" />
+									<span th:errors=${film.categorie} class="text-danger"></span> 
+								</div>
+								<br>
+								<br>
+							</div>
+							
+							<button class="btn btn-success" type="submit">Save</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+</body>
+</html>
